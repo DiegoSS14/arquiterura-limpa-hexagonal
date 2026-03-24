@@ -7,17 +7,21 @@
     "dev": "tsx --watch src/index.ts",
     "test": "jest",
     "build": "tsc",
-    "migrate:make": "knex --knexfile ./src/example/adapters/db/knex/knexfile.cjs migrate:make",
-    "migrate:down": "knex --knexfile ./src/example/adapters/db/knex/knexfile.cjs migrate:rollback",
-    "migrate:up": "knex --knexfile ./src/example/adapters/db/knex/knexfile.cjs migrate:latest"
+    "migrate:make": "knex --knexfile ./src/adapters/db/knex/knexfile.cjs migrate:make",
+    "migrate:down": "knex --knexfile ./src/adapters/db/knex/knexfile.cjs migrate:rollback",
+    "migrate:up": "knex --knexfile ./src/adapters/db/knex/knexfile.cjs migrate:latest"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "type": "module",
   "devDependencies": {
+    "@types/axios": "^0.9.36",
+    "@types/express": "^5.0.6",
     "@types/jest": "^30.0.0",
+    "@types/jsonwebtoken": "^9.0.10",
     "@types/node": "^25.5.0",
+    "axios": "^1.13.6",
     "jest": "^30.3.0",
     "ts-jest": "^29.4.6",
     "ts-node-dev": "^2.0.0",
@@ -27,6 +31,8 @@
     "@types/bcrypt": "^6.0.0",
     "bcrypt": "^6.0.0",
     "dotenv": "^17.3.1",
+    "express": "^5.2.1",
+    "jsonwebtoken": "^9.0.3",
     "knex": "^3.1.0",
     "pg": "^8.20.0",
     "tsx": "^4.21.0"
