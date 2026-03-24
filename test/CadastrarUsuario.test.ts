@@ -5,31 +5,31 @@ import UserCollectionDB from '../src/example/adapters/db/knex/UserCollectionDB'
 import User from '../src/example/app/user/User'
 import RegisterUser from '../src/example/app/user/UserRegister'
 
-test('Deve cadastrar o usuário', () => {
+test('Deve cadastrar o usuário', async () => {
     const banco = new UserInMemory()
     const criptografar = new CriptografarSenhaImpl()
     const useCase = new RegisterUser(banco, criptografar)
     
-    const usuario: User = useCase.executar('Diego Sousa', 'diego@gmail.com', "123456")
+    const usuario: User = await useCase.executar('Diego Sousa', 'diego@gmail.com', "123456")
     expect(usuario).toHaveProperty('id')
     expect(usuario.nome).toBe('Diego Sousa')
     expect(usuario.senha).toBe('654321')
 })
 
 test('Deve comparar as senhas corretamente', () => {
-    const banco = new UserInMemory()
     const bcrypt = new CriptografarBcrypt()
     const senhaCrypto = bcrypt.criptografar('123456')   
     
     expect(bcrypt.comparar('123456', senhaCrypto)).toBe(true)
 })
 
-test('Deve cadastrar o usuário real no banco de dados', () => {
+test('Deve cadastrar o usuário real no banco de dados', async () => {
     const banco = new UserCollectionDB()
     const criptografar = new CriptografarSenhaImpl()
     const useCase = new RegisterUser(banco, criptografar)
+    const emailUnico = `diego+${Date.now()}@gmail.com`
     
-    const usuario: User = useCase.executar('Diego Sousa', 'diego@gmail.com', "123456")
+    const usuario: User = await useCase.executar('Diego Sousa', emailUnico, "123456")
     expect(usuario).toHaveProperty('id')
     expect(usuario.nome).toBe('Diego Sousa')
     expect(usuario.senha).toBe('654321')

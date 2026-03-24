@@ -4,6 +4,11 @@ import connection from "./connection";
 
 export default class UserCollectionDB implements UserCollection{
     async inserir(user: User) {
-        await connection.table('usuarios').insert(user)
+        await connection.table('usuarios').insert({
+            id: user.id,
+            nome: user.nome,
+            email: user.email,
+            senha: user.senha,
+        })
     }
 }

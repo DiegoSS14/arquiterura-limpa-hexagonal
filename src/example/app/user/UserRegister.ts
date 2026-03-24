@@ -10,8 +10,7 @@ export default class CadastrarUsuario {
         private encryptionProvider: EncryptionProvider
     ){}
 
-    executar(nome: string, email: string, senha: string): User {
-        const id = Math.floor(Math.random())
+    async executar(nome: string, email: string, senha: string): Promise<User> {
         const senhaCripto = this.encryptionProvider.criptografar(senha)
 
         const user: User = {
@@ -21,7 +20,7 @@ export default class CadastrarUsuario {
             senha: senhaCripto
         }
 
-        this.collection.inserir(user)
+        await this.collection.inserir(user)
         return user
     }
 }
