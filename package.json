@@ -6,7 +6,10 @@
   "scripts": {
     "dev": "tsx --watch src/index.ts",
     "test": "jest",
-    "build": "tsc"
+    "build": "tsc",
+    "migrate:make": "knex --knexfile ./src/example/adapters/db/knex/knexfile.cjs migrate:make",
+    "migrate:down": "knex --knexfile ./src/example/adapters/db/knex/knexfile.cjs migrate:rollback",
+    "migrate:up": "knex --knexfile ./src/example/adapters/db/knex/knexfile.cjs migrate:latest"
   },
   "keywords": [],
   "author": "",
@@ -23,6 +26,9 @@
   "dependencies": {
     "@types/bcrypt": "^6.0.0",
     "bcrypt": "^6.0.0",
+    "dotenv": "^17.3.1",
+    "knex": "^3.1.0",
+    "pg": "^8.20.0",
     "tsx": "^4.21.0"
   }
 }

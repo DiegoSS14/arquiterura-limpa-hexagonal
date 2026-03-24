@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
     "module": "esnext",
+    "moduleResolution": "node",
     "target": "esnext",
     "types": [],
 
@@ -20,7 +21,9 @@
     "isolatedModules": true,
     "noUncheckedSideEffectImports": true,
     "moduleDetection": "force",
+    "allowSyntheticDefaultImports": true,
     "skipLibCheck": true,
+    "allowJs": true,
     "outDir": "dist"
   },
   "include": ["src/**/*"]

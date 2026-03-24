@@ -1,4 +1,4 @@
-import type CriptografarSenha from "../../app/ports/Criptografia";
+import type CriptografarSenha from "../../app/user/EncryptionProvider";
 
 export default class CriptografarSenhaImpl implements CriptografarSenha{
     comparar(senha: string, senhaCripto: string): boolean {

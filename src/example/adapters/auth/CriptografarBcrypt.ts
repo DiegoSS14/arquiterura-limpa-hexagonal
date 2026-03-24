@@ -1,4 +1,4 @@
-import type Criptografia from "../../app/ports/Criptografia"
+import type Criptografia from "../../app/user/EncryptionProvider"
 import { genSaltSync, hashSync, compareSync } from 'bcrypt'
 
 export default class CriptografarBcrypt implements Criptografia{
