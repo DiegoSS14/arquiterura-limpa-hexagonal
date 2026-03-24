@@ -4,7 +4,7 @@ import type User from "./User"
 import Id from "../shared/Id"
 
 
-export default class CadastrarUsuario {
+export default class UserRegister {
     constructor(
         private collection: UserCollection, 
         private encryptionProvider: EncryptionProvider
@@ -19,6 +19,9 @@ export default class CadastrarUsuario {
             email: email,
             senha: senhaCripto
         }
+
+        const userAlreadyExists = await this.collection.findByEmail(user.email)
+        if(userAlreadyExists) throw new Error('User already exists')
 
         await this.collection.inserir(user)
         return user
