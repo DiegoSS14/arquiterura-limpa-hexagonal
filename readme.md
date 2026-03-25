@@ -8,6 +8,16 @@ O objetivo é demonstrar, de forma simples e aplicada, como estruturar um sistem
 - separar responsabilidades entre regras de negócio e implementação técnica;
 - facilitar testes, manutenção e evolução do código ao longo do tempo.
 
+## Metodologia: TDD (Test-Driven Development)
+
+Este projeto utiliza **TDD (Test-Driven Development)** como metodologia de desenvolvimento. Cada funcionalidade é criada seguindo o ciclo:
+
+1. **Red** - Escrever testes que falham;
+2. **Green** - Implementar o mínimo de código para passar nos testes;
+3. **Refactor** - Melhorar o código mantendo os testes passando.
+
+Dessa forma, o projeto garante código testado desde o início e maior confiabilidade nas mudanças futuras.
+
 ## O que é demonstrado neste estudo
 
 - uso prático do padrão **Adapter** para conectar a aplicação a serviços externos;
