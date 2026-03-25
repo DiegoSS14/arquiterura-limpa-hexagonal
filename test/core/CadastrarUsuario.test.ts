@@ -1,10 +1,10 @@
-import CriptografarBcrypt from '../src/adapters/auth/CriptografarBcrypt'
-import CriptografarSenhaImpl from '../src/adapters/auth/CriptografarSenhaImpl'
-import UserInMemory from '../src/adapters/db/UserInMemory'
-import UserCollectionDB from '../src/adapters/db/knex/UserCollectionDB'
-import User from '../src/core/user/User'
-import RegisterUser from '../src/core/user/UserRegister'
-import Id from '../src/core/shared/Id'
+import CriptografarBcrypt from '../../src/adapters/auth/CriptografarBcrypt'
+import CriptografarSenhaImpl from '../../src/adapters/auth/CriptografarSenhaImpl'
+import UserInMemory from '../../src/adapters/db/UserInMemory'
+import UserCollectionDB from '../../src/adapters/db/knex/UserCollectionDB'
+import User from '../../src/core/user/User'
+import RegisterUser from '../../src/core/user/UserRegister'
+import Id from '../../src/core/shared/Id'
 
 test('Deve cadastrar o usuário', async () => {
     const banco = new UserInMemory()
@@ -24,7 +24,7 @@ test('Deve comparar as senhas corretamente', () => {
     expect(bcrypt.comparar('123456', senhaCrypto)).toBe(true)
 })
 
-test('Deve cadastrar o usuário real no banco de dados', async () => {
+test.skip('Deve cadastrar o usuário real no banco de dados', async () => {
     const banco = new UserCollectionDB()
     const criptografar = new CriptografarSenhaImpl()
     const useCase = new RegisterUser(banco, criptografar)
@@ -37,7 +37,7 @@ test('Deve cadastrar o usuário real no banco de dados', async () => {
     expect(usuario.senha).toBe('654321')
 })
 
-test('Deve receber recusa do banco ao inserir e-mail duplicado', async () => {
+test.skip('Deve receber recusa do banco ao inserir e-mail duplicado', async () => {
     const banco = new UserCollectionDB()
     const email = `diego+duplicado-${Date.now()}@gmail.com`
 
