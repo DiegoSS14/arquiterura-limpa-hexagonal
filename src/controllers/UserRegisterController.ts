@@ -11,7 +11,7 @@ export default class UserRegisterController {
         this.server.post('/register', async (req, res) => {
             try {
                 const user = req.body
-                const createdUser = await this.useCase.executar(user.nome, user.email, user.senha)
+                const createdUser = await this.useCase.execute(user.nome, user.email, user.senha)
                 res.status(201).send()
             } catch (err: any) {
                 res.status(400).send(err.message)

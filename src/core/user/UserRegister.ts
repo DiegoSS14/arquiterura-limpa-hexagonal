@@ -10,7 +10,7 @@ export default class UserRegister {
         private encryptionProvider: EncryptionProvider
     ){}
 
-    async executar(nome: string, email: string, senha: string): Promise<User> {
+    async execute(nome: string, email: string, senha: string): Promise<User> {
         const senhaCripto = this.encryptionProvider.criptografar(senha)
 
         const user: User = {
