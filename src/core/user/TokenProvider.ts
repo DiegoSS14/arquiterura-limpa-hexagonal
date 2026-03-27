@@ -1,3 +1,4 @@
 export default interface TokenProvider {
-    generate(email: string, senha: string): string
+    generate(payload: object | string): string
+    validar(token: string): string | object
 }

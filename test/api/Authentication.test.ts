@@ -34,7 +34,6 @@ test('Deve logar um usuário se ele existir', async ()=> {
     expect(res.data.user.nome).toBe(user.nome)
     expect(res.data.user.email).toBe(user.email)
     expect(res.data.token).toBeDefined()
-    console.log(res.data)
 })
 
 test('Deve retornar erro ao logar com senha ou email errados', async ()=> {

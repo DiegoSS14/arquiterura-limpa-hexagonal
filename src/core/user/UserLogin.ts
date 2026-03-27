@@ -3,16 +3,16 @@ import type EncryptionProvider from "./EncryptionProvider";
 import type UserCollection from "./CollectionProvider";
 import type TokenProvider from "./TokenProvider";
 
-export type UserDTO = {id: string, nome: string, email: string}
-export type UserLoginDTO = {email: string, senha: string}
-export type UserLoginOutput = {user: UserDTO, token: string}
+export type UserDTO = { id: string, nome: string, email: string }
+export type UserLoginDTO = { email: string, senha: string }
+export type UserLoginOutput = { user: UserDTO, token: string }
 
 export default class UserLogin implements UseCase<UserLoginDTO, UserLoginOutput> {
     constructor(
         private collection: UserCollection,
         private token: TokenProvider,
         private encryptionProvider: EncryptionProvider,
-    ) {}
+    ) { }
 
     async execute(dto: UserLoginDTO): Promise<UserLoginOutput> {
         const userFinded = await this.collection.findByEmail(dto.email)
@@ -29,7 +29,11 @@ export default class UserLogin implements UseCase<UserLoginDTO, UserLoginOutput>
 
         return {
             user: user,
-            token: this.token.generate(userFinded.email, userFinded.senha!)
+            token: this.token.generate({
+                nome: userFinded.nome,
+                email: userFinded.email,
+                senha: userFinded.senha
+            })
         }
     }
 }

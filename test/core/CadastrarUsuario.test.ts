@@ -1,5 +1,5 @@
-import CriptografarBcrypt from '../../src/adapters/auth/CriptografarBcrypt'
-import CriptografarSenhaImpl from '../../src/adapters/auth/CriptografarSenhaImpl'
+import CriptografarBcrypt from '../../src/adapters/auth/BcryptAdapter'
+import CriptografarSenhaImpl from '../../src/adapters/auth/PasswordInvertAdapter'
 import UserInMemory from '../../src/adapters/db/UserInMemory'
 import UserCollectionDB from '../../src/adapters/db/knex/UserCollectionDB'
 import User from '../../src/core/user/User'
