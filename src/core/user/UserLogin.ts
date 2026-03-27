@@ -1,28 +1,24 @@
+import type { UseCase } from "../shared/UseCase";
 import type EncryptionProvider from "./EncryptionProvider";
-import type UserCollection from "./UserCollection";
+import type UserCollection from "./CollectionProvider";
+import type TokenProvider from "./TokenProvider";
 
-interface UserDTO {
-    id: string
-    nome: string
-    email: string
-}
+export type UserDTO = {id: string, nome: string, email: string}
+export type UserLoginDTO = {email: string, senha: string}
+export type UserLoginOutput = {user: UserDTO, token: string}
 
-interface UserOutput {
-    user: UserDTO
-    token: string
-}
-
-export default class UserLogin {
+export default class UserLogin implements UseCase<UserLoginDTO, UserLoginOutput> {
     constructor(
         private collection: UserCollection,
-        private encryptionProvider: EncryptionProvider
+        private token: TokenProvider,
+        private encryptionProvider: EncryptionProvider,
     ) {}
 
-    async execute(email: string, senha: string): Promise<UserOutput> {
-        const userFinded = await this.collection.findByEmail(email)
+    async execute(dto: UserLoginDTO): Promise<UserLoginOutput> {
+        const userFinded = await this.collection.findByEmail(dto.email)
         if (!userFinded) throw new Error('Incorrect password or email')
 
-        const correctPassword = this.encryptionProvider.comparar(senha, userFinded.senha!)
+        const correctPassword = this.encryptionProvider.comparar(dto.senha, userFinded.senha!)
         if (!correctPassword) throw new Error('Incorrect password or email')
 
         const user: UserDTO = {
@@ -33,7 +29,7 @@ export default class UserLogin {
 
         return {
             user: user,
-            token: 'token'
+            token: this.token.generate(userFinded.email, userFinded.senha!)
         }
     }
 }

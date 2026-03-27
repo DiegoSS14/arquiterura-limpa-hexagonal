@@ -9,14 +9,11 @@ export default class UserLoginController {
     execute() {
         this.server.post('/login', async (req, res) => {
             try {
-                const output = await this.useCase.execute(
-                    req.body.email, 
-                    req.body.senha)
-                res.status(200).send({
-                    id: output.user.id,
-                    nome: output.user.nome,
-                    email: output.user.email,
+                const output = await this.useCase.execute({
+                    email: req.body.email,
+                    senha: req.body.senha
                 })
+                res.status(200).send({user: output.user, token: output.token})
             } catch (err: any) {
                 res.status(403).send(err.message)
             }

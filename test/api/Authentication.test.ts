@@ -5,9 +5,12 @@ import '../.env'
 const baseURL = process.env.BASE_URL
 
 interface LoginResponse {
-    id: string
-    nome: string
-    email: string
+    user: {
+        id: string
+        nome: string
+        email: string
+    }
+    token: string
 }
 
 const user: Partial<User> = {
@@ -28,13 +31,15 @@ test.skip('Deve registrar um usuário se ele não existir', async ()=>{
 
 test('Deve logar um usuário se ele existir', async ()=> {
     const res = await axios.post<LoginResponse>(`${baseURL}/login`, { email: user.email, senha: user.senha })
-    expect(res.data.nome).toBe(user.nome)
-    expect(res.data.email).toBe(user.email)
+    expect(res.data.user.nome).toBe(user.nome)
+    expect(res.data.user.email).toBe(user.email)
+    expect(res.data.token).toBeDefined()
+    console.log(res.data)
 })
 
 test('Deve retornar erro ao logar com senha ou email errados', async ()=> {
     try{
-        const res = await axios.post<LoginResponse>(`${baseURL}/login`, { email: user.email, senha: '...' })
+        await axios.post<LoginResponse>(`${baseURL}/login`, { email: user.email, senha: '...' })
     } catch(err: any) {
         expect(err.response.status).toBe(403)
         expect(err.response.data).toBe('Incorrect password or email')

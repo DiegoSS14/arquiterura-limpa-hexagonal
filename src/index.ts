@@ -8,6 +8,7 @@ import CriptografarBcrypt from './adapters/auth/CriptografarBcrypt';
 import UserRegisterController from './controllers/UserRegisterController';
 import UserLoginController from './controllers/UserLoginController';
 import UserLogin from './core/user/UserLogin';
+import JwtTokenImpl from './adapters/auth/JwtTokenImpl';
 
 const app = express()
 
@@ -24,8 +25,9 @@ app.listen(port, () => {
 
 const collection = new UserCollectionDB()
 const encrypt  = new CriptografarBcrypt()
+const tokenImpl = new JwtTokenImpl()
 const userRegister = new UserRegister(collection, encrypt)
-const userLogin = new UserLogin(collection, encrypt)
+const userLogin = new UserLogin(collection, tokenImpl, encrypt)
 
 const userRegisterController = new UserRegisterController(app, userRegister)
 userRegisterController.execute()

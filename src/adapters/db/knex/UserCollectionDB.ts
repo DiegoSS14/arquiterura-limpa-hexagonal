@@ -1,5 +1,5 @@
 import type User from "../../../core/user/User";
-import type UserCollection from "../../../core/user/UserCollection";
+import type UserCollection from "../../../core/user/CollectionProvider";
 import collection from "./collection";
 
 export default class UserCollectionDB implements UserCollection{

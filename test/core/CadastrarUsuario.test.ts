@@ -11,7 +11,7 @@ test('Deve cadastrar o usuário', async () => {
     const criptografar = new CriptografarSenhaImpl()
     const useCase = new RegisterUser(banco, criptografar)
 
-    const usuario: User = await useCase.execute('Diego Sousa', 'diego@gmail.com', "123456")
+    const usuario: User = await useCase.execute({ nome: 'Diego Sousa', email: 'diego@gmail.com', senha: "123456" })
     expect(usuario).toHaveProperty('id')
     expect(usuario.nome).toBe('Diego Sousa')
     expect(usuario.senha).toBe('654321')
@@ -28,10 +28,10 @@ test.skip('Deve cadastrar o usuário real no banco de dados', async () => {
     const banco = new UserCollectionDB()
     const criptografar = new CriptografarSenhaImpl()
     const useCase = new RegisterUser(banco, criptografar)
-    
+
     const emailUnico = `diego+${Date.now()}@gmail.com`
 
-    const usuario: User = await useCase.execute('Diego Sousa', emailUnico, "123456")
+    const usuario: User = await useCase.execute({ nome: 'Diego Sousa', email: emailUnico, senha: "123456"})
     expect(usuario).toHaveProperty('id')
     expect(usuario.nome).toBe('Diego Sousa')
     expect(usuario.senha).toBe('654321')
