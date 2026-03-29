@@ -1,5 +1,5 @@
 import type User from "../../core/user/User"
-import type UserCollection from "../../core/user/CollectionProvider"
+import type UserCollection from "../../core/user/CollectionUser"
 
 export default class UserInMemory implements UserCollection{
     private static db: any = []

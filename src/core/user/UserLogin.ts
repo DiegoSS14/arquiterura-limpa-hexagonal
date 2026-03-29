@@ -1,6 +1,6 @@
 import type { UseCase } from "../shared/UseCase";
 import type EncryptionProvider from "./EncryptionProvider";
-import type UserCollection from "./CollectionProvider";
+import type UserCollection from "./CollectionUser";
 import type TokenProvider from "./TokenProvider";
 
 export type UserDTO = { id: string, nome: string, email: string }

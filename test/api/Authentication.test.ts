@@ -2,6 +2,8 @@ import User from '../../src/core/user/User'
 import axios from "axios"
 import '../.env'
 
+import users from '../data/users'
+
 const baseURL = process.env.BASE_URL
 
 interface LoginResponse {
@@ -14,9 +16,9 @@ interface LoginResponse {
 }
 
 const user: Partial<User> = {
-    nome: 'Diego Sousa',
-    email: 'diego@gmail.com',
-    senha: '12345678',
+    nome: users.full.nome,
+    email: users.full.email,
+    senha: users.full.senha,
 }
 
 test.skip('Deve registrar um usuário se ele não existir', async ()=>{

@@ -3,12 +3,15 @@ env.config()
 
 import express from "express";
 import UserRegister from './core/user/UserRegister';
-import UserCollectionDB from './adapters/db/knex/UserCollectionDB';
+import UserCollectionDB from './adapters/db/UserCollectionDB';
 import CriptografarBcrypt from './adapters/auth/BcryptAdapter';
 import UserRegisterController from './controllers/UserRegisterController';
 import UserLoginController from './controllers/UserLoginController';
 import UserLogin from './core/user/UserLogin';
 import JwtTokenImpl from './adapters/auth/JwtAdapter';
+import SaveTransaction from './core/transaction/SaveTransaction';
+import SaveTransactionController from './controllers/SaveTransactionController';
+import UserMiddleware from './controllers/UserMiddleware';
 
 const app = express()
 
@@ -37,3 +40,8 @@ const userLoginController = new UserLoginController(app, userLogin)
 userLoginController.execute()
 
 // ---------------------------------- Rotas autenticadas
+
+const userMiddleware = UserMiddleware(collection, tokenImpl)
+const saveTransaction = new SaveTransaction()
+const saveTransactionController = new SaveTransactionController(app, saveTransaction, [userMiddleware])
+saveTransactionController.execute()

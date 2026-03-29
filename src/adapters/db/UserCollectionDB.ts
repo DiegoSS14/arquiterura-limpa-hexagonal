@@ -1,6 +1,6 @@
-import type User from "../../../core/user/User";
-import type UserCollection from "../../../core/user/CollectionProvider";
-import collection from "./collection";
+import type User from "../../core/user/User";
+import type UserCollection from "../../core/user/CollectionUser";
+import collection from "./conection";
 
 export default class UserCollectionDB implements UserCollection{
     async inserir(user: User) {

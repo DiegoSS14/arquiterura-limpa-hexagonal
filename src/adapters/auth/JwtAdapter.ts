@@ -9,6 +9,6 @@ export default class JwtTokenImpl implements TokenProvider {
     }
     
     validar(token: string): string | object {
-        return jwt.verify(token.replace('Bearer ', ''), this.secret)
+        return jwt.verify(token, this.secret)
     }
 }

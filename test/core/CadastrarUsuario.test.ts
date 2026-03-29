@@ -1,24 +1,25 @@
-import CriptografarBcrypt from '../../src/adapters/auth/BcryptAdapter'
-import CriptografarSenhaImpl from '../../src/adapters/auth/PasswordInvertAdapter'
-import UserInMemory from '../../src/adapters/db/UserInMemory'
-import UserCollectionDB from '../../src/adapters/db/knex/UserCollectionDB'
+import BcryptAdapter from '../../src/adapters/auth/BcryptAdapter'
+import PasswordInvertAdapter from '../../src/adapters/auth/PasswordInvertAdapter'
+import UserInMemory from '../fake/UserInMemory'
+import UserCollectionDB from '../../src/adapters/db/UserCollectionDB'
 import User from '../../src/core/user/User'
 import RegisterUser from '../../src/core/user/UserRegister'
-import Id from '../../src/core/shared/Id'
+
+import users from '../data/users'
 
 test('Deve cadastrar o usuário', async () => {
     const banco = new UserInMemory()
-    const criptografar = new CriptografarSenhaImpl()
+    const criptografar = new PasswordInvertAdapter()
     const useCase = new RegisterUser(banco, criptografar)
 
-    const usuario: User = await useCase.execute({ nome: 'Diego Sousa', email: 'diego@gmail.com', senha: "123456" })
+    const usuario: User = await useCase.execute({ nome: users.full.nome, email: users.full.email, senha: users.full.senha! })
     expect(usuario).toHaveProperty('id')
     expect(usuario.nome).toBe('Diego Sousa')
     expect(usuario.senha).toBe('654321')
 })
 
 test('Deve comparar as senhas corretamente', () => {
-    const bcrypt = new CriptografarBcrypt()
+    const bcrypt = new BcryptAdapter()
     const senhaCrypto = bcrypt.criptografar('123456')
 
     expect(bcrypt.comparar('123456', senhaCrypto)).toBe(true)
@@ -26,34 +27,33 @@ test('Deve comparar as senhas corretamente', () => {
 
 test.skip('Deve cadastrar o usuário real no banco de dados', async () => {
     const banco = new UserCollectionDB()
-    const criptografar = new CriptografarSenhaImpl()
+    const criptografar = new BcryptAdapter()
     const useCase = new RegisterUser(banco, criptografar)
 
     const emailUnico = `diego+${Date.now()}@gmail.com`
 
-    const usuario: User = await useCase.execute({ nome: 'Diego Sousa', email: emailUnico, senha: "123456"})
+    const usuario: User = await useCase.execute({ nome: users.full.nome, email: emailUnico, senha: users.full.senha! })
     expect(usuario).toHaveProperty('id')
     expect(usuario.nome).toBe('Diego Sousa')
-    expect(usuario.senha).toBe('654321')
 })
 
-test.skip('Deve receber recusa do banco ao inserir e-mail duplicado', async () => {
+test.skip('Deve receber erro ao cadastrar usuário com e-mail duplicado', async () => {
     const banco = new UserCollectionDB()
+    const criptografar = new BcryptAdapter()
+    const useCase = new RegisterUser(banco, criptografar)
     const email = `diego+duplicado-${Date.now()}@gmail.com`
 
-    await banco.inserir({
-        id: Id.gerar(),
-        nome: 'Diego Sousa',
+    await useCase.execute({
+        nome: users.full.nome,
         email,
-        senha: '123456'
+        senha: users.full.senha!
     })
 
     await expect(
-        banco.inserir({
-            id: Id.gerar(),
+        useCase.execute({
             nome: 'Diego Sousa 2',
             email,
             senha: '654321'
         })
-    ).rejects.toMatchObject({ code: '23505' })
+    ).rejects.toThrow('User already exists')
 })
