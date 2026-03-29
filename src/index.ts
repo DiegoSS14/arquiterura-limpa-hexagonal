@@ -12,7 +12,7 @@ import JwtTokenImpl from './adapters/auth/JwtAdapter';
 import SaveTransaction from './core/transaction/SaveTransaction';
 import SaveTransactionController from './controllers/SaveTransactionController';
 import UserMiddleware from './controllers/UserMiddleware';
-import CollectionTransaction from './adapters/db/CollectionTransaction';
+import TransactionCollection from './adapters/db/TransactionCollection';
 
 const app = express()
 
@@ -42,7 +42,7 @@ userLoginController.execute()
 
 // ---------------------------------- Rotas autenticadas
 
-const transactionCollection = new CollectionTransaction()
+const transactionCollection = new TransactionCollection()
 
 const userMiddleware = UserMiddleware(userCollection, tokenImpl)
 const saveTransaction = new SaveTransaction(transactionCollection)

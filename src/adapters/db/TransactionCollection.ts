@@ -1,8 +1,8 @@
-import type CollectionTransaction from "../../core/transaction/CollectionTransactionProvider";
+import type CollectionTransactionProvider from "../../core/transaction/CollectionTransactionProvider";
 import type Transaction from "../../core/transaction/Transction";
 import db from "./conection";
 
-export default class implements CollectionTransaction {
+export default class implements CollectionTransactionProvider {
     insert(transaction: Transaction): Promise<void> {
         return db.table('transacoes').insert(this._toTable(transaction))
     }
@@ -21,7 +21,7 @@ export default class implements CollectionTransaction {
     }
 
     async findByMonth(userId: string, year: number, month: number): Promise<Transaction[]> {
-        const transactions =  await db.table('transaction')
+        const transactions =  await db.table('transacoes')
             .where('usuario_id', userId)
             .whereRaw('extract(year from vencimento) = ?', year)
             .whereRaw('extract(month from vencimento) = ?', month)
@@ -32,7 +32,9 @@ export default class implements CollectionTransaction {
     // Converte os campos da aplicação para os tipos da tabela
     private _toTable(transaction: Transaction): any {
         return {
-            ...transaction,
+            id: transaction.id,
+            descricao: transaction.descricao,
+            valor: transaction.valor,
             vencimento: transaction.vencimento.toISOString(),
             usuario_id: transaction.idUsuario
         }
@@ -42,7 +44,10 @@ export default class implements CollectionTransaction {
     // Importante converter pra manter a consistência ao consumir em outros lugares da aplicação
     private _fromTable(transaction: any): Transaction {
         return {
-            ...transaction,
+            id: transaction.id,
+            descricao: transaction.descricao,
+            valor: Number(transaction.valor),
+            vencimento: new Date(transaction.vencimento),
             idUsuario: transaction.id_usuario
         }
     }
