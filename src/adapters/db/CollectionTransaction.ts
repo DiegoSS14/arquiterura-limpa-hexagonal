@@ -17,7 +17,7 @@ export default class implements CollectionTransaction {
             .where({ id, usuario_id: userId })
 
         if (transactions.length === 0) return null
-        return this._toTable(transactions[0])
+        return this._fromTable(transactions[0])
     }
 
     async findByMonth(userId: string, year: number, month: number): Promise<Transaction[]> {
@@ -26,7 +26,7 @@ export default class implements CollectionTransaction {
             .whereRaw('extract(year from vencimento) = ?', year)
             .whereRaw('extract(month from vencimento) = ?', month)
 
-            return transactions.map(this._toTable)
+            return transactions.map(this._fromTable)
     }
 
     // Converte os campos da aplicação para os tipos da tabela
