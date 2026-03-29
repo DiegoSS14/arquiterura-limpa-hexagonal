@@ -1,4 +1,4 @@
-import type CollectionTransaction from "../../core/transaction/CollectionTransaction";
+import type CollectionTransaction from "../../core/transaction/CollectionTransactionProvider";
 import type Transaction from "../../core/transaction/Transction";
 import db from "./conection";
 

@@ -1,4 +1,4 @@
-import type UserCollection from "./CollectionUser"
+import type UserCollection from "./CollectionUserProvider"
 import type EncryptionProvider from "./EncryptionProvider"
 import type User from "./User"
 import Id from "../shared/Id"

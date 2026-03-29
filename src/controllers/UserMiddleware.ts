@@ -1,5 +1,5 @@
 import type { Request, Response, NextFunction } from "express";
-import type CollectionProvider from "../core/user/CollectionUser";
+import type CollectionProvider from "../core/user/CollectionUserProvider";
 import type TokenProvider from "../core/user/TokenProvider";
 import type User from "../core/user/User";
 
@@ -17,10 +17,15 @@ export default function UserMiddleware(
                 return
             }
 
-            const userToken = tokenProvider.validar(token!) as User
+            const userToken = tokenProvider.validar(token!) as Partial<User>
+            if (!userToken?.email || !userToken?.id) {
+                authError()
+                return
+            }
+
             const user = await collection.findByEmail(userToken.email)
 
-            if (!user) {
+            if (!user || user.id !== userToken.id) {
                 authError()
                 return
             }

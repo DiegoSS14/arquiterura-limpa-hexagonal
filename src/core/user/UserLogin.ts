@@ -1,6 +1,6 @@
 import type { UseCase } from "../shared/UseCase";
 import type EncryptionProvider from "./EncryptionProvider";
-import type UserCollection from "./CollectionUser";
+import type UserCollection from "./CollectionUserProvider";
 import type TokenProvider from "./TokenProvider";
 
 export type UserDTO = { id: string, nome: string, email: string }
@@ -30,9 +30,9 @@ export default class UserLogin implements UseCase<UserLoginDTO, UserLoginOutput>
         return {
             user: user,
             token: this.token.generate({
+                id: userFinded.id,
                 nome: userFinded.nome,
-                email: userFinded.email,
-                senha: userFinded.senha
+                email: userFinded.email
             })
         }
     }

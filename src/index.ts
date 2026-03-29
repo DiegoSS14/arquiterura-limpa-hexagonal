@@ -12,6 +12,7 @@ import JwtTokenImpl from './adapters/auth/JwtAdapter';
 import SaveTransaction from './core/transaction/SaveTransaction';
 import SaveTransactionController from './controllers/SaveTransactionController';
 import UserMiddleware from './controllers/UserMiddleware';
+import CollectionTransaction from './adapters/db/CollectionTransaction';
 
 const app = express()
 
@@ -26,12 +27,12 @@ app.listen(port, () => {
 
 // ---------------------------------- Rotas públicas
 
-const collection = new UserCollectionDB()
+const userCollection = new UserCollectionDB()
 const encrypt  = new CriptografarBcrypt()
 const secret = process.env.JWT_SECRET || 'your secret'
 const tokenImpl = new JwtTokenImpl(secret)
-const userRegister = new UserRegister(collection, encrypt)
-const userLogin = new UserLogin(collection, tokenImpl, encrypt)
+const userRegister = new UserRegister(userCollection, encrypt)
+const userLogin = new UserLogin(userCollection, tokenImpl, encrypt)
 
 const userRegisterController = new UserRegisterController(app, userRegister)
 userRegisterController.execute()
@@ -41,7 +42,9 @@ userLoginController.execute()
 
 // ---------------------------------- Rotas autenticadas
 
-const userMiddleware = UserMiddleware(collection, tokenImpl)
-const saveTransaction = new SaveTransaction()
+const transactionCollection = new CollectionTransaction()
+
+const userMiddleware = UserMiddleware(userCollection, tokenImpl)
+const saveTransaction = new SaveTransaction(transactionCollection)
 const saveTransactionController = new SaveTransactionController(app, saveTransaction, [userMiddleware])
 saveTransactionController.execute()
