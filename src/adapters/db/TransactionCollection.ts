@@ -7,8 +7,14 @@ export default class implements CollectionTransactionProvider {
         return db.table('transacoes').insert(this._toTable(transaction))
     }
 
-    update(transaction: Transaction): Promise<Transaction> {
-        return db.table('transacoes').update(this._toTable(transaction))
+    async update(transaction: Transaction): Promise<Transaction> {
+        const [updatedTransaction] = await db.table('transacoes')
+            .where({ id: transaction.id, usuario_id: transaction.idUsuario })
+            .update(this._toTable(transaction))
+            .returning('*')
+
+        if (!updatedTransaction) throw new Error('Transacao nao encontrada para atualizacao')
+        return this._fromTable(updatedTransaction)
     }
 
     async findById(userId: string, id: string): Promise<Transaction | null> {
@@ -48,7 +54,7 @@ export default class implements CollectionTransactionProvider {
             descricao: transaction.descricao,
             valor: Number(transaction.valor),
             vencimento: new Date(transaction.vencimento),
-            idUsuario: transaction.id_usuario
+            idUsuario: transaction.usuario_id
         }
     }
 }

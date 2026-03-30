@@ -24,6 +24,7 @@ export default class SaveTransactionController {
             }
             
             const transaction = {
+                id: req.body.id,
                 descricao: req.body.descricao,
                 valor: req.body.valor,
                 vencimento: new Date(req.body.vencimento),
