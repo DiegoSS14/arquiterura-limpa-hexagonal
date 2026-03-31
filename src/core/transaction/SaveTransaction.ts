@@ -1,4 +1,4 @@
-import type CollectionTransaction from "./CollectionTransactionProvider";
+import type CollectionTransactionProvider from "./CollectionTransactionProvider";
 import type { UseCase } from "../shared/UseCase";
 import type Transaction from "./Transction";
 import Id from "../shared/Id";
@@ -13,7 +13,7 @@ interface TransactionDTO {
 
 export default class SaveTransaction implements UseCase<TransactionDTO, void> {
     constructor(
-        private db: CollectionTransaction
+        private db: CollectionTransactionProvider
     ) { }
 
     async execute(transactionDTO: TransactionDTO): Promise<void> {

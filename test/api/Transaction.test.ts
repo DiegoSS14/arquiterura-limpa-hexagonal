@@ -28,3 +28,13 @@ test('Deve atualizar um item no banco de dados', async ()=>{
     expect(res.status).toBe(200)
     console.log(transaction)
 })
+
+test('Deve retornar o extrato mensal + saldo consolidado', async ()=>{
+    const headers = await getAuthorizationHeader()
+
+    const res = await axios.get(`${baseURL}/transaction/2026/4`, headers)
+    expect(res.status).toBe(200)
+    expect(res.data).toHaveProperty('transacoes')
+    expect(res.data).toHaveProperty('saldo')
+    console.log(res.data)
+})

@@ -1,6 +1,6 @@
 import type Transaction from "./Transction";
 
-export default interface CollectionTransaction {
+export default interface CollectionTransactionProvider {
     insert(transaction: Transaction): Promise<void>
     update(transaction: Transaction): Promise<Transaction>
     findById(userId: string, id: string): Promise<Transaction | null>

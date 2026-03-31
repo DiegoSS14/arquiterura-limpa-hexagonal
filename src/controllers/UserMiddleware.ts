@@ -1,10 +1,10 @@
 import type { Request, Response, NextFunction } from "express";
-import type CollectionProvider from "../core/user/CollectionUserProvider";
+import type CollectionUserProvider from "../core/user/CollectionUserProvider";
 import type TokenProvider from "../core/user/TokenProvider";
 import type User from "../core/user/User";
 
 export default function UserMiddleware(
-    collection: CollectionProvider,
+    collection: CollectionUserProvider,
     tokenProvider: TokenProvider
 ) {
     return async (req: Request, res: Response, next: NextFunction) => {

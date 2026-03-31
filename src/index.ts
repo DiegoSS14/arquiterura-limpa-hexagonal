@@ -13,6 +13,8 @@ import SaveTransaction from './core/transaction/SaveTransaction';
 import SaveTransactionController from './controllers/SaveTransactionController';
 import UserMiddleware from './controllers/UserMiddleware';
 import TransactionCollection from './adapters/db/TransactionCollection';
+import ExtratoMensal from './core/transaction/ExtratoMensal';
+import ExtratoMensalController from './controllers/ExtratoMensalController';
 
 const app = express()
 
@@ -46,5 +48,10 @@ const transactionCollection = new TransactionCollection()
 
 const userMiddleware = UserMiddleware(userCollection, tokenImpl)
 const saveTransaction = new SaveTransaction(transactionCollection)
+const extratoMensal = new ExtratoMensal(transactionCollection)
+
 const saveTransactionController = new SaveTransactionController(app, saveTransaction, [userMiddleware])
 saveTransactionController.execute()
+
+const extratoMensalController = new ExtratoMensalController(app, extratoMensal, [userMiddleware])
+extratoMensalController.execute()
